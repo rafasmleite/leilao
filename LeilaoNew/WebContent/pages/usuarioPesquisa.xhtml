@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+                
+    <ui:define name="title">Pesquisa de Usuario</ui:define>
+                
+    <ui:define name="content">
+                        <h:form id="formUsrBusca">
+    
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h1>Pesquisa de Usuario</h1>
+                    <p:panelGrid id="pnlUsrBusca" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                        <h:panelGroup styleClass="md-inputfield">
+                            <p:inputText maxlength="30" size="50" value="#{usuarioBean.usuarioPesquisa.nome}" onblur="value=value.toUpperCase()" />
+                            <label>Buscar</label>
+                        </h:panelGroup>
+                        <p:splitButton value="Buscar" icon="ui-icon-check" actionListener="#{usuarioBean.pesquisar}" update=":formUsrBusca:pnlUsrBusca :formUsrBusca:pnlDados :msgGlobal">
+                                    <p:menuitem value="Adicionar" icon="fa fa-plus" action="/pages/usuarioCadastro.xhtml?faces-redirect=true" update=":formUsrBusca:pnlUsrBusca :msgGlobal"/>
+                                    <p:separator />
+                                    <p:menuitem value="Pagina Inicial" action="/pages/estadoCadastro.xhtml?faces-redirect=true" icon="ui-icon-home" />
+                        </p:splitButton>
+                    </p:panelGrid>
+                    <p:panelGrid id="pnlDados" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                    	<h:panelGroup rendered="#{usuarioBean.mostrarTabela}" styleClass="md-inputfield">
+                    		<p:dataTable emptyMessage="Nenhum registro encontrado." var="usuario" filteredValue="#{usuarioBean.listaUsuarioFiltrado}" value="#{usuarioBean.listaUsuario}" 
+                	        paginator="true" rows="10">
+            	                <p:column headerText="Nome">
+        	                        <h:outputText value="#{usuario.nome}" />
+    	                        </p:column>
+            	                <p:column headerText="CPF">
+        	                        <h:outputText value="#{usuario.cpf}" />
+    	                        </p:column>
+            	                <p:column headerText="Empresa CNPJ">
+        	                        <h:outputText value="#{usuario.empresa.cnpj}" />
+    	                        </p:column>
+	                            <p:column width="100" headerText="Opções" >
+
+                           		</p:column>
+                        	</p:dataTable>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </div>
+            </div>
+        </div>
+                        </h:form>
+        
+    </ui:define>
+
+</ui:composition>
